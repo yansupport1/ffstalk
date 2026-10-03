@@ -3,43 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#060910" />
+  <meta name="theme-color" content="#05070d" />
   <title>FF Stalk — Cek Akun Free Fire</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <div class="bg-mesh" aria-hidden="true"></div>
-  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="ambient" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="grid-lines"></div>
+  </div>
 
-  <header class="header">
+  <header class="topbar">
     <a class="brand" href="/">
-      <span class="brand-mark"><i class="fa-solid fa-crosshairs"></i></span>
+      <span class="brand-icon"><i class="fa-solid fa-crosshairs"></i></span>
       <span class="brand-text">FF<span>Stalk</span></span>
     </a>
-    <span class="header-chip"><i class="fa-solid fa-lock-open"></i> Tanpa login</span>
+    <span class="top-chip"><i class="fa-solid fa-shield-halved"></i> Tanpa login</span>
   </header>
 
   <main>
     <section class="hero">
-      <p class="eyebrow"><i class="fa-solid fa-bolt"></i> Lookup publik · real-time</p>
+      <p class="eyebrow"><i class="fa-solid fa-bolt"></i> Lookup real-time</p>
       <h1>Cek akun <em>Free Fire</em></h1>
-      <p class="lead">Masukkan Player ID. Lihat rank, prime, outfit, estimasi top-up, dan info publik lainnya.</p>
+      <p class="lede">Tempel Player ID. Lihat rank, likes, outfit, pet &amp; profil publik.</p>
 
-      <form id="searchForm" class="search" autocomplete="off">
-        <div class="search-shell">
-          <i class="fa-solid fa-magnifying-glass search-ico"></i>
-          <input id="uidInput" type="text" inputmode="numeric" maxlength="15" placeholder="Player ID / UID" required />
-          <button type="button" id="pasteBtn" class="btn-ghost" title="Tempel">
+      <form id="searchForm" class="search-shell" autocomplete="off">
+        <div class="search-inner">
+          <i class="fa-solid fa-fingerprint search-ico"></i>
+          <input id="uidInput" type="text" inputmode="numeric" maxlength="15" placeholder="Player ID / Account ID" required />
+          <button type="button" id="pasteBtn" class="btn-ghost" title="Tempel" aria-label="Tempel">
             <i class="fa-regular fa-clipboard"></i>
           </button>
         </div>
-        <button type="submit" id="searchBtn" class="btn-main">
-          <span class="lbl"><i class="fa-solid fa-radar"></i> Cek Akun</span>
-          <span class="spin" hidden><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+        <button type="submit" id="searchBtn" class="btn-glow">
+          <span class="btn-t"><i class="fa-solid fa-magnifying-glass"></i> Cek</span>
+          <span class="btn-l" hidden><i class="fa-solid fa-circle-notch fa-spin"></i></span>
         </button>
       </form>
 
@@ -49,40 +52,42 @@
       </div>
     </section>
 
-    <section id="resultSection" class="result" hidden>
-      <div id="resultCard"></div>
+    <section id="resultSection" class="stage" hidden>
+      <div id="resultCard" class="profile-wrap"></div>
     </section>
 
-    <section id="errorSection" class="result" hidden>
-      <div class="card error">
+    <section id="errorSection" class="stage" hidden>
+      <div class="err-box">
         <i class="fa-solid fa-triangle-exclamation err-ico"></i>
         <h2 id="errorTitle">Gagal</h2>
         <p id="errorMsg"></p>
-        <button type="button" id="retryBtn" class="btn-ghost solid">Coba lagi</button>
+        <button type="button" id="retryBtn" class="btn-ghost solid">
+          <i class="fa-solid fa-rotate-right"></i> Coba lagi
+        </button>
       </div>
     </section>
 
     <section class="perks">
       <article class="perk">
-        <i class="fa-solid fa-user-shield"></i>
+        <i class="fa-solid fa-unlock-keyhole"></i>
         <h3>Tanpa login</h3>
-        <p>Hanya butuh Player ID. Tidak minta password.</p>
+        <p>Cukup Player ID. Tidak minta password.</p>
       </article>
       <article class="perk">
-        <i class="fa-solid fa-gem"></i>
-        <h3>Diamond privat</h3>
-        <p>Saldo diamond/gold tidak dipublikasikan Garena.</p>
+        <i class="fa-solid fa-images"></i>
+        <h3>Visual</h3>
+        <p>Banner, avatar, outfit, prime.</p>
       </article>
       <article class="perk">
-        <i class="fa-solid fa-chart-line"></i>
-        <h3>Estimasi top-up</h3>
-        <p>Perkiraan kasar dari level, rank, likes &amp; usia akun.</p>
+        <i class="fa-solid fa-lock"></i>
+        <h3>Data publik</h3>
+        <p>Diamond &amp; privat tidak ditampilkan.</p>
       </article>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>Bukan afiliasi Garena. Data unofficial · bisa berubah. Diamond selalu privat.</p>
+  <footer class="foot">
+    <p>Bukan produk resmi Garena. Hanya data publik.</p>
   </footer>
 
   <script src="/static/app.js"></script>
