@@ -58,6 +58,7 @@ class PlayerData(BaseModel):
     credit_score: Optional[int] = None
     title: Optional[str] = None
     release_version: Optional[str] = None
+    topup_estimate: Optional[dict] = None
     raw: Optional[dict] = Field(default=None)
 
 
@@ -106,6 +107,38 @@ def _year_from(iso_or_ts: Any) -> Optional[int]:
     except Exception:
         return None
 
+
+
+def estimate_topup(level, exp, liked, rank_br, rank_cs, created_year, prime_level) -> dict:
+    """Perkiraan kasar nilai top-up (bukan data resmi Garena)."""
+    lv = level or 0
+    xp = exp or 0
+    likes = liked or 0
+    br = rank_br or 0 if isinstance(rank_br, (int, float)) else 0
+    cs = rank_cs or 0 if isinstance(rank_cs, (int, float)) else 0
+    prime = prime_level or 0
+    age = max(0, 2026 - (created_year or 2024))
+
+    # heuristic score
+    score = lv * 8 + (xp // 50000) * 3 + min(likes, 50000) // 200
+    score += br * 2 + cs + prime * 40 + age * 25
+    # rough IDR bands (illustrative)
+    low = max(0, int(score * 800))
+    high = max(low + 50000, int(score * 2200))
+    tier = "Casual"
+    if score > 800:
+        tier = "Heavy spender (estimasi)"
+    elif score > 400:
+        tier = "Regular (estimasi)"
+    elif score > 150:
+        tier = "Light (estimasi)"
+    return {
+        "tier": tier,
+        "score": int(score),
+        "idr_low": low,
+        "idr_high": high,
+        "note": "Estimasi kasar dari level/rank/likes/usia akun. Bukan saldo diamond nyata & bukan data resmi Garena.",
+    }
 
 def map_ffxapi(raw: dict) -> PlayerData:
     data = raw.get("data") or {}
@@ -182,6 +215,15 @@ def map_ffxapi(raw: dict) -> PlayerData:
         credit_score=_safe_int(account.get("credit_score")),
         title=account.get("title"),
         release_version=account.get("release_version"),
+        topup_estimate=estimate_topup(
+            _safe_int(profile.get("level")),
+            _safe_int(account.get("exp")),
+            _safe_int(profile.get("likes") or account.get("liked")),
+            rank.get("br_max_rank") or rank.get("br_rank"),
+            rank.get("cs_max_rank") or rank.get("cs_rank"),
+            _year_from(created),
+            _safe_int(profile.get("prime_level") or account.get("booyah_pass")),
+        ),
         raw=raw if os.getenv("FF_INCLUDE_RAW", "0") == "1" else None,
     )
 
@@ -249,6 +291,15 @@ def map_generic(raw: dict) -> PlayerData:
         credit_score=_safe_int((raw.get("creditScoreInfo") or {}).get("creditScore")),
         title=None,
         release_version=basic.get("releaseVersion"),
+        topup_estimate=estimate_topup(
+            _safe_int(basic.get("level") or basic.get("AccountLevel")),
+            _safe_int(basic.get("exp")),
+            _safe_int(basic.get("liked") or basic.get("AccountLikes")),
+            basic.get("rank") or basic.get("maxRank"),
+            basic.get("csRank") or basic.get("csMaxRank"),
+            _year_from(created),
+            None,
+        ),
         raw=raw if os.getenv("FF_INCLUDE_RAW", "0") == "1" else None,
     )
 

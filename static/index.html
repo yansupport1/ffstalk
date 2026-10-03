@@ -3,101 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#070b14" />
-  <meta name="description" content="Cek profil Free Fire via Player ID. Tanpa login, data publik saja." />
+  <meta name="theme-color" content="#060910" />
   <title>FF Stalk — Cek Akun Free Fire</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <div class="bg-orbs" aria-hidden="true">
-    <span class="orb orb-1"></span>
-    <span class="orb orb-2"></span>
-    <span class="orb orb-3"></span>
-  </div>
-  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="bg-mesh" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="header">
-    <a href="/" class="logo">
-      <span class="logo-mark">FF</span>
-      <span class="logo-name">Stalk</span>
+    <a class="brand" href="/">
+      <span class="brand-mark"><i class="fa-solid fa-crosshairs"></i></span>
+      <span class="brand-text">FF<span>Stalk</span></span>
     </a>
-    <p class="header-tag">Cek akun · tanpa login</p>
+    <span class="header-chip"><i class="fa-solid fa-lock-open"></i> Tanpa login</span>
   </header>
 
   <main>
     <section class="hero">
-      <h1 class="hero-title">Cek akun <span>Free Fire</span></h1>
-      <p class="hero-desc">Masukkan Player ID, lihat level, rank, likes, clan, pet &amp; info publik lainnya. Tidak perlu login.</p>
+      <p class="eyebrow"><i class="fa-solid fa-bolt"></i> Lookup publik · real-time</p>
+      <h1>Cek akun <em>Free Fire</em></h1>
+      <p class="lead">Masukkan Player ID. Lihat rank, prime, outfit, estimasi top-up, dan info publik lainnya.</p>
 
       <form id="searchForm" class="search" autocomplete="off">
-        <label class="sr-only" for="uidInput">Player ID</label>
-        <div class="search-field">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input
-            id="uidInput"
-            type="text"
-            inputmode="numeric"
-            pattern="[0-9]*"
-            maxlength="15"
-            placeholder="Tempel Player ID di sini…"
-            required
-          />
-          <button type="button" id="pasteBtn" class="ghost-btn" title="Tempel dari clipboard">
-            Tempel
+        <div class="search-shell">
+          <i class="fa-solid fa-magnifying-glass search-ico"></i>
+          <input id="uidInput" type="text" inputmode="numeric" maxlength="15" placeholder="Player ID / UID" required />
+          <button type="button" id="pasteBtn" class="btn-ghost" title="Tempel">
+            <i class="fa-regular fa-clipboard"></i>
           </button>
         </div>
-        <button type="submit" id="searchBtn" class="primary-btn">
-          <span class="btn-label">Cek Akun</span>
-          <span class="btn-spin" hidden></span>
+        <button type="submit" id="searchBtn" class="btn-main">
+          <span class="lbl"><i class="fa-solid fa-radar"></i> Cek Akun</span>
+          <span class="spin" hidden><i class="fa-solid fa-circle-notch fa-spin"></i></span>
         </button>
       </form>
 
-      <div class="hints">
-        <span>Contoh:</span>
-        <button type="button" class="hint-chip" data-uid="1704140050">1704140050</button>
-        <button type="button" class="hint-chip" data-uid="305000592">305000592</button>
+      <div class="samples">
+        <button type="button" class="sample" data-uid="1704140050">1704140050</button>
+        <button type="button" class="sample" data-uid="305000592">305000592</button>
       </div>
     </section>
 
-    <section id="resultSection" class="panel" hidden>
-      <div id="resultCard" class="card"></div>
+    <section id="resultSection" class="result" hidden>
+      <div id="resultCard"></div>
     </section>
 
-    <section id="errorSection" class="panel" hidden>
-      <div class="card error-card">
-        <div class="error-emoji">😕</div>
+    <section id="errorSection" class="result" hidden>
+      <div class="card error">
+        <i class="fa-solid fa-triangle-exclamation err-ico"></i>
         <h2 id="errorTitle">Gagal</h2>
         <p id="errorMsg"></p>
-        <button type="button" id="retryBtn" class="ghost-btn large">Coba lagi</button>
+        <button type="button" id="retryBtn" class="btn-ghost solid">Coba lagi</button>
       </div>
     </section>
 
-    <section class="features">
-      <div class="feature">
-        <span class="f-icon">🔓</span>
+    <section class="perks">
+      <article class="perk">
+        <i class="fa-solid fa-user-shield"></i>
         <h3>Tanpa login</h3>
-        <p>Cukup Player ID. Tidak minta password atau akun Garena.</p>
-      </div>
-      <div class="feature">
-        <span class="f-icon">⚡</span>
-        <h3>Cepat</h3>
-        <p>Data publik diambil real-time dari sumber unofficial.</p>
-      </div>
-      <div class="feature">
-        <span class="f-icon">🛡️</span>
-        <h3>Data publik saja</h3>
-        <p>Diamond, gold, email, HP tidak ditampilkan — memang privat.</p>
-      </div>
+        <p>Hanya butuh Player ID. Tidak minta password.</p>
+      </article>
+      <article class="perk">
+        <i class="fa-solid fa-gem"></i>
+        <h3>Diamond privat</h3>
+        <p>Saldo diamond/gold tidak dipublikasikan Garena.</p>
+      </article>
+      <article class="perk">
+        <i class="fa-solid fa-chart-line"></i>
+        <h3>Estimasi top-up</h3>
+        <p>Perkiraan kasar dari level, rank, likes &amp; usia akun.</p>
+      </article>
     </section>
   </main>
 
   <footer class="footer">
-    <p>Bukan produk resmi Garena / Free Fire. Hanya menampilkan data publik.</p>
+    <p>Bukan afiliasi Garena. Data unofficial · bisa berubah. Diamond selalu privat.</p>
   </footer>
 
   <script src="/static/app.js"></script>
