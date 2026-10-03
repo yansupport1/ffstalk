@@ -5,8 +5,21 @@
     { "src": "static/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/api/(.*)", "dest": "main.py" },
-    { "src": "/(.*)", "dest": "/static/index.html" }
+    {
+      "src": "/google9a4753a0b67cb3cb.html",
+      "dest": "/static/google9a4753a0b67cb3cb.html"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/static/index.html"
+    }
   ]
 }
